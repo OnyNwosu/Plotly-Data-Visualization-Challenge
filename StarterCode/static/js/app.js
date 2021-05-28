@@ -1,14 +1,34 @@
 // FUNCTION #1 of 4
 function buildCharts(patientID) {
     d3.json("samples.json").then(data => {
-        console.log(data)
+        
+        var metadata = data.metadata
+        var samples = data.samples;
+
+        console.log("metadata", metadata)
+        console.log("samples", samples)
+        // ADD APPROXIMATELY 50 LINES OF CODE
+        var bubbleData = [{
+            x: [1, 2, 3, 4],
+            y: [10, 11, 12, 13],
+            mode: 'markers',
+            marker: {
+                size: [40, 60, 80, 100]
+            }
+        }];
+
+        var bubbleLayout = {
+            title: 'Marker Size',
+            showlegend: false,
+            height: 600,
+            width: 600
+        };
+
+        Plotly.newPlot('bubble', bubbleData, bubbleLayout);
+        // Plotly.newPlot("barDiv", barData, barLayout)
+        // Plotly.newPlot("bubbleDiv", bubbleData, bubbleLayout)
+        // Plotly.newPlot("gaugeDiv", guageData, bubbleLayout)
     })
-
-    // ADD APPROXIMATELY 50 LINES OF CODE
-
-    // Plotly.newPlot("barDiv", barData, barLayout)
-    // Plotly.newPlot("bubbleDiv", bubbleData, bubbleLayout)
-    // Plotly.newPlot("gaugeDiv", guageData, bubbleLayout)
 };
 
 // FUNCTION #2 of 4
@@ -38,7 +58,7 @@ function initializeDashboard() {
             dropdown.append("option").text(patientID).property("value", patientID)
         })
         buildCharts(patientIDs[0]);
-        populateDemoInfo(patientIDs[0]);
+        populateDemographicInfo(patientIDs[0]);
     });
 };
 
