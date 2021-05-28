@@ -1,16 +1,19 @@
 // FUNCTION #1 of 4
 function buildCharts(patientID) {
     d3.json("samples.json").then(data => {
-        
+
         var metadata = data.metadata
         var samples = data.samples;
-
-        console.log("metadata", metadata)
-        console.log("samples", samples)
+        var filteredMetadata = metadata.filter(row => row.id == patientID)[0];
+        var filteredSample = samples.filter(row => row.id == patientID)[0];
+        console.log("metadata", filteredMetadata)
+        console.log("samples", filteredSample)
         // ADD APPROXIMATELY 50 LINES OF CODE
         var bubbleData = [{
-            x: [1, 2, 3, 4],
-            y: [10, 11, 12, 13],
+            // x: [1, 2, 3, 4],
+            // y: [10, 11, 12, 13],
+            x: filteredSample.otu_ids,
+            y: filteredSample.sample_values,
             mode: 'markers',
             marker: {
                 size: [40, 60, 80, 100]
