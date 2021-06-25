@@ -10,12 +10,14 @@ function buildCharts(patientID) {
         console.log("samples", filteredSample)
         // ADD APPROXIMATELY 50 LINES OF CODE
         var bubbleData = [{
-            // x: [1, 2, 3, 4],
-            // y: [10, 11, 12, 13],
+            x: [1, 2, 3, 4],
+            y: [10, 11, 12, 13],
             x: filteredSample.otu_ids,
             y: filteredSample.sample_values,
             mode: 'markers',
             marker: {
+                color: ['rgb(93, 164, 214)', 'rgb(255, 144, 14)',  'rgb(44, 160, 101)', 'rgb(255, 65, 54)'],
+                opacity: [1, 0.8, 0.6, 0.4],
                 size: [40, 60, 80, 100]
             }
         }];
