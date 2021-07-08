@@ -24,10 +24,11 @@ function buildCharts(patientID) {
         }];
 
         var bubbleLayout = {
-            title: 'Marker Size',
+            title: false,
             showlegend: false,
             height: 600,
-            width: 600
+            width: 1250,
+            xaxis:{title:"OTU_ID"}
         };
 
         Plotly.newPlot('bubble', bubbleData, bubbleLayout);
