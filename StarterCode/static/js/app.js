@@ -11,7 +11,7 @@ function buildCharts(patientID) {
         var otu_ids = filteredSample.otu_ids
         var otu_labels = filteredSample.otu_labels
         console.log(sample_values)
-        console.log(otu_ids)
+        console.log(otu_ids);
         console.log(otu_labels);
 
         // Bubble Data 
