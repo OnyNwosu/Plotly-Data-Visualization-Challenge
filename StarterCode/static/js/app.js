@@ -71,7 +71,7 @@ function buildCharts(patientID) {
 
         // Bar Chart
 
-        var barData = {
+        var barData = [{
             type: 'bar',
             // x: topTen.map(sample => sample.filteredSample.sample_values),
             // y: topTen.map(sample => filteredSample.otu_ids),
@@ -82,7 +82,7 @@ function buildCharts(patientID) {
                 color: 'blue'
             },
             orientation: "h",
-        }
+        }]
 
         var barLayout = {
             title: false,
