@@ -6,12 +6,13 @@ function buildCharts(patientID) {
         var samples = data.samples;
         var filteredMetadata = metadata.filter(row => row.id == patientID)[0];
         var filteredSample = samples.filter(row => row.id == patientID)[0];
-        console.log("metadata", filteredMetadata)
-        console.log("samples", filteredSample)
+
         var sample_values = filteredSample.sample_values
         var otu_ids = filteredSample.otu_ids
         var otu_labels = filteredSample.otu_labels
-
+        console.log(sample_values)
+        console.log(otu_ids)
+        console.log(otu_labels)
 
         // Bubble Data 
         var bubbleData = [{
@@ -49,14 +50,14 @@ function buildCharts(patientID) {
         // });
 
         // var sorted = data.sort(function (a, b) {
-            // searchA = a.filteredSample.sample_values;
-            // searchB = b.filteredSample.sample_values;
-            // return searchB - searchA;
+        // searchA = a.filteredSample.sample_values;
+        // searchB = b.filteredSample.sample_values;
+        // return searchB - searchA;
         // });
 
         // new_bar_data.sort(function (a, b) {
-            // return b[0] - a[0];
-            // return b - a;
+        // return b[0] - a[0];
+        // return b - a;
         // });
 
         // var topTen = new_bar_data.slice(0, 10);
@@ -69,13 +70,13 @@ function buildCharts(patientID) {
         // });
 
         // Bar Chart
-        
+
         var barData = {
             type: 'bar',
             // x: topTen.map(sample => sample.filteredSample.sample_values),
             // y: topTen.map(sample => filteredSample.otu_ids),
-            x:sample_values,
-            y:otu_ids.map(otu_id => `${otu_id}`),
+            x: sample_values,
+            y: otu_ids.map(otu_id => `${otu_id}`),
             text: otu_labels,
             marker: {
                 color: 'blue'
@@ -97,7 +98,7 @@ function buildCharts(patientID) {
 
 
         // Gauge Data --Optional
-        
+
 
 
         // Plotly.newPlot("gauge", guageData, bubbleLayout)
@@ -111,22 +112,22 @@ function buildCharts(patientID) {
 // FUNCTION #2 of 4
 function populateDemographicInfo(patientID) {
 
-    var result = data.filter(meta => meta.id.toString() === id)[0];
     var demographicInfoBox = d3.select("#sample-metadata");
 
     d3.json("samples.json").then(data => {
         // ADD APPROXIMATELY 3-6 LINE OF CODE
-       
+        var result = data.metadata.filter(meta => meta.id.toString() == patientID)[0];
+
         demographicInfoBox.html("");
-        Object.entries(result).forEach((key) => {   
-            demographicInfoBox.append("h5").text(key[0].toUpperCase() + ": " + key[1] + "\n");    
+        Object.entries(result).forEach((key) => {
+            demographicInfoBox.append("h5").text(key[0].toUpperCase() + ": " + key[1] + "\n");
         });
     });
 }
 
 // FUNCTION #3 of 4
 function optionChanged(patientID) {
-    
+
     buildCharts(patientID);
     populateDemographicInfo(patientID);
 }
