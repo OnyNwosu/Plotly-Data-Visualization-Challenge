@@ -43,8 +43,26 @@ function buildCharts(patientID) {
 
 
 
-
+        var combine_list = [filteredSample.sample_values,filteredSample.otu_labels,filteredSample.otu_ids];
+      
+        var new_bar_data = combine_list[0].map(function(col, i){
+          return combine_list.map(function(row){
+              return row[i];
+          });
+        });
         
+        new_bar_data.sort(function(a, b){
+          return b[0] - a[0];
+          });
+        
+        var top_ten_bar_data = new_bar_data.slice(0,10);
+        
+        var new_bar_data = top_ten_bar_data[0].map(function(col, i){
+          return top_ten_bar_data.map(function(row){
+              return row[i];
+          });
+        });
+
 
     // Bar Chart
     var barData = [{
