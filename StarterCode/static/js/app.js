@@ -12,7 +12,7 @@ function buildCharts(patientID) {
         var otu_labels = filteredSample.otu_labels
         console.log(sample_values)
         console.log(otu_ids)
-        console.log(otu_labels)
+        console.log(otu_labels);
 
         // Bubble Data 
         var bubbleData = [{
@@ -63,8 +63,6 @@ function buildCharts(patientID) {
         Plotly.newPlot('bar', barData, barLayout);
 
 
-
-
         // Gauge Data --Optional
         var data = [
             {
@@ -84,7 +82,6 @@ function buildCharts(patientID) {
 
     })
 };
-
 
 
 // FUNCTION #2 of 4
