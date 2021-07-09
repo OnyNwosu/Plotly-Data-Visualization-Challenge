@@ -6,75 +6,79 @@ function buildCharts(patientID) {
         var samples = data.samples;
         var filteredMetadata = metadata.filter(row => row.id == patientID)[0];
         var filteredSample = samples.filter(row => row.id == patientID)[0];
-        // var filteredSample.sample_values = data.samples[0].sample_values.slice(0,10).reverse(); 
-        // var filteredSample.otu_labels = data.samples[0].otu_labels.slice(0,10);
-        // var otu_top = (data.samples[0].otu_ids.slice(0, 10)).reverse();
-        // var filteredSample.otu_ids = otu_top.map(d => "OTU " + d);
-        // var filteredSample.otu_labels = data.samples[0].otu_labels.slice(0,10);
         console.log("metadata", filteredMetadata)
         console.log("samples", filteredSample)
             
 
 
     // Bubble Data 
-        // var bubbleData = [{
-        //     x: filteredSample.otu_ids,
-        //     y: filteredSample.sample_values,
-        //     text:filteredSample.otu_labels,
-        //     mode: 'markers',
-        //     marker: {
-        //         color: filteredSample.otu_ids,
-        //         colorscale:"Rainbow",
-        //         opacity: [1, 0.8, 0.6, 0.4],
-        //         size: filteredSample.sample_values
-        // }
+        var bubbleData = [{
+            x: filteredSample.otu_ids,
+            y: filteredSample.sample_values,
+            text:filteredSample.otu_labels,
+            mode: 'markers',
+            marker: {
+                color: filteredSample.otu_ids,
+                colorscale:"Rainbow",
+                opacity: [1, 0.8, 0.6, 0.4],
+                size: filteredSample.sample_values
+        }
 
-        // }];
+        }];
 
-        // var bubbleLayout = {
-        //     title: false,
-        //     showlegend: false,
-        //     height: 600,
-        //     width: 1250,
-        //     xaxis:{title:"OTU_ID"}
-        // };
+        var bubbleLayout = {
+            title: false,
+            showlegend: false,
+            height: 600,
+            width: 1250,
+            xaxis:{title:"OTU_ID"}
+        };
 
-        // Plotly.newPlot('bubble', bubbleData, bubbleLayout);
+        Plotly.newPlot('bubble', bubbleData, bubbleLayout);
 
 
 
-        var combine_list = [filteredSample.sample_values,filteredSample.otu_labels,filteredSample.otu_ids];
+        // var combine_list = [filteredSample.sample_values,filteredSample.otu_labels,filteredSample.otu_ids];
       
-        var new_bar_data = combine_list[0].map(function(col, i){
-          return combine_list.map(function(row){
-              return row[i];
-          });
+        // var new_bar_data = combine_list[0].map(function(col, i){
+        //   return combine_list.map(function(row){
+        //       return row[i];
+        //   });
+        // });
+
+        var sorted = data.sort(function(a,b) {
+            searchA = a.filteredSample.sample_values;
+            searchB = b.filteredSample.sample_values;
+            return searchB - searchA;
         });
         
-        new_bar_data.sort(function(a, b){
-          return b[0] - a[0];
-          });
+        // new_bar_data.sort(function(a, b){
+        //   return b[0] - a[0];
+        //     return b -a;
+        //   });
         
-        var top_ten_bar_data = new_bar_data.slice(0,10);
+        var topTen = new_bar_data.slice(0,10);
+        topTen.reverse();
         
-        var new_bar_data = top_ten_bar_data[0].map(function(col, i){
-          return top_ten_bar_data.map(function(row){
-              return row[i];
-          });
-        });
+        // var new_bar_data = topTen[0].map(function(col, i){
+        //   return topTen.map(function(row){
+        //       return row[i];
+        //   });
+        // });
 
 
     // Bar Chart
-    var barData = [{
+    var barData = {
         type: 'bar',
-        x: filteredSample.sample_values,
-        y: filteredSample.otu_ids,
+        x: topTen.map(sample => sample.filteredSample.sample_values),
+        y: topTen.map(sample => filteredSample.otu_ids),
         text: filteredSample.otu_labels,
         marker: {
             color: 'blue'},
         orientation: "h",
+    }
+
     
-    }];
 
   var barLayout = {
     title: false,
@@ -91,7 +95,9 @@ function buildCharts(patientID) {
 
     // Gauge Data
        
-        // Plotly.newPlot("gauge", guageData, bubbleLayout)
+
+
+    // Plotly.newPlot("gauge", guageData, bubbleLayout)
     })
 };
 
