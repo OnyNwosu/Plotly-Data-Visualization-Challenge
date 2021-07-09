@@ -78,7 +78,6 @@ function buildCharts(patientID) {
         orientation: "h",
     }
 
-    
 
   var barLayout = {
     title: false,
