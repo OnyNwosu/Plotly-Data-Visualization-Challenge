@@ -8,7 +8,9 @@ function buildCharts(patientID) {
         var filteredSample = samples.filter(row => row.id == patientID)[0];
         console.log("metadata", filteredMetadata)
         console.log("samples", filteredSample)
-
+        var sample_values = filteredSample.sample_values
+        var otu_ids = filteredSample.otu_ids
+        var otu_labels = filteredSample.otu_labels
 
 
         // Bubble Data 
@@ -46,19 +48,19 @@ function buildCharts(patientID) {
         //     });
         // });
 
-        var sorted = data.sort(function (a, b) {
-            searchA = a.filteredSample.sample_values;
-            searchB = b.filteredSample.sample_values;
-            return searchB - searchA;
-        });
+        // var sorted = data.sort(function (a, b) {
+            // searchA = a.filteredSample.sample_values;
+            // searchB = b.filteredSample.sample_values;
+            // return searchB - searchA;
+        // });
 
-        new_bar_data.sort(function (a, b) {
-            return b[0] - a[0];
-            return b - a;
-        });
+        // new_bar_data.sort(function (a, b) {
+            // return b[0] - a[0];
+            // return b - a;
+        // });
 
-        var topTen = new_bar_data.slice(0, 10);
-        topTen.reverse();
+        // var topTen = new_bar_data.slice(0, 10);
+        // topTen.reverse();
 
         // var new_bar_data = topTen[0].map(function (col, i) {
         //     return topTen.map(function (row) {
@@ -70,9 +72,11 @@ function buildCharts(patientID) {
         
         var barData = {
             type: 'bar',
-            x: topTen.map(sample => sample.filteredSample.sample_values),
-            y: topTen.map(sample => filteredSample.otu_ids),
-            text: filteredSample.otu_labels,
+            // x: topTen.map(sample => sample.filteredSample.sample_values),
+            // y: topTen.map(sample => filteredSample.otu_ids),
+            x:sample_values,
+            y:otu_ids.map(otu_id => `${otu_id}`),
+            text: otu_labels,
             marker: {
                 color: 'blue'
             },
@@ -111,19 +115,18 @@ function populateDemographicInfo(patientID) {
     var demographicInfoBox = d3.select("#sample-metadata");
 
     d3.json("samples.json").then(data => {
-        console.log(data)
         // ADD APPROXIMATELY 3-6 LINE OF CODE
        
-        demographicInfo.html("");
+        demographicInfoBox.html("");
         Object.entries(result).forEach((key) => {   
-            demographicInfo.append("h5").text(key[0].toUpperCase() + ": " + key[1] + "\n");    
+            demographicInfoBox.append("h5").text(key[0].toUpperCase() + ": " + key[1] + "\n");    
         });
     });
 }
 
 // FUNCTION #3 of 4
 function optionChanged(patientID) {
-    console.log(patientID);
+    
     buildCharts(patientID);
     populateDemographicInfo(patientID);
 }
