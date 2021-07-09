@@ -8,21 +8,21 @@ function buildCharts(patientID) {
         var filteredSample = samples.filter(row => row.id == patientID)[0];
         console.log("metadata", filteredMetadata)
         console.log("samples", filteredSample)
-            
 
 
-    // Bubble Data 
+
+        // Bubble Data 
         var bubbleData = [{
             x: filteredSample.otu_ids,
             y: filteredSample.sample_values,
-            text:filteredSample.otu_labels,
+            text: filteredSample.otu_labels,
             mode: 'markers',
             marker: {
                 color: filteredSample.otu_ids,
-                colorscale:"Rainbow",
+                colorscale: "Rainbow",
                 opacity: [1, 0.8, 0.6, 0.4],
                 size: filteredSample.sample_values
-        }
+            }
 
         }];
 
@@ -31,74 +31,78 @@ function buildCharts(patientID) {
             showlegend: false,
             height: 600,
             width: 1250,
-            xaxis:{title:"OTU_ID"}
+            xaxis: { title: "OTU_ID" }
         };
 
         Plotly.newPlot('bubble', bubbleData, bubbleLayout);
 
 
 
-        // var combine_list = [filteredSample.sample_values,filteredSample.otu_labels,filteredSample.otu_ids];
-      
-        // var new_bar_data = combine_list[0].map(function(col, i){
-        //   return combine_list.map(function(row){
-        //       return row[i];
-        //   });
+        // var combine_list = [filteredSample.sample_values, filteredSample.otu_labels, filteredSample.otu_ids];
+
+        // var new_bar_data = combine_list[0].map(function (col, i) {
+        //     return combine_list.map(function (row) {
+        //         return row[i];
+        //     });
         // });
 
-        var sorted = data.sort(function(a,b) {
+        var sorted = data.sort(function (a, b) {
             searchA = a.filteredSample.sample_values;
             searchB = b.filteredSample.sample_values;
             return searchB - searchA;
         });
-        
-        // new_bar_data.sort(function(a, b){
-        //   return b[0] - a[0];
-        //     return b -a;
-        //   });
-        
-        var topTen = new_bar_data.slice(0,10);
+
+        new_bar_data.sort(function (a, b) {
+            return b[0] - a[0];
+            return b - a;
+        });
+
+        var topTen = new_bar_data.slice(0, 10);
         topTen.reverse();
-        
-        // var new_bar_data = topTen[0].map(function(col, i){
-        //   return topTen.map(function(row){
-        //       return row[i];
-        //   });
+
+        // var new_bar_data = topTen[0].map(function (col, i) {
+        //     return topTen.map(function (row) {
+        //         return row[i];
+        //     });
         // });
 
+        // Bar Chart
+        
+        var barData = {
+            type: 'bar',
+            x: topTen.map(sample => sample.filteredSample.sample_values),
+            y: topTen.map(sample => filteredSample.otu_ids),
+            text: filteredSample.otu_labels,
+            marker: {
+                color: 'blue'
+            },
+            orientation: "h",
+        }
 
-    // Bar Chart
-    var barData = {
-        type: 'bar',
-        x: topTen.map(sample => sample.filteredSample.sample_values),
-        y: topTen.map(sample => filteredSample.otu_ids),
-        text: filteredSample.otu_labels,
-        marker: {
-            color: 'blue'},
-        orientation: "h",
-    }
+        var barLayout = {
+            title: false,
+            showlegend: false,
+            height: 450,
+            width: 460,
+            xaxis: { title: false }
+        };
 
-
-  var barLayout = {
-    title: false,
-    showlegend: false,
-    height: 450,
-    width: 460,
-    xaxis: {title: false}
-  };
-    
-    Plotly.newPlot('bar', barData, barLayout);
-
-
+        Plotly.newPlot('bar', barData, barLayout);
 
 
-    // Gauge Data
-       
 
 
-    // Plotly.newPlot("gauge", guageData, bubbleLayout)
+        // Gauge Data --Optional
+        
+
+
+        // Plotly.newPlot("gauge", guageData, bubbleLayout)
+
+
     })
 };
+
+
 
 // FUNCTION #2 of 4
 function populateDemographicInfo(patientID) {
