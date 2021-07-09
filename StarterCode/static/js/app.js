@@ -6,7 +6,7 @@ function buildCharts(patientID) {
         var samples = data.samples;
         var filteredMetadata = metadata.filter(row => row.id == patientID)[0];
         var filteredSample = samples.filter(row => row.id == patientID)[0];
-
+        var washingFrequency = filteredMetadata.wfreq
         var sample_values = filteredSample.sample_values
         var otu_ids = filteredSample.otu_ids
         var otu_labels = filteredSample.otu_labels
@@ -39,45 +39,13 @@ function buildCharts(patientID) {
 
         Plotly.newPlot('bubble', bubbleData, bubbleLayout);
 
-
-
-        // var combine_list = [filteredSample.sample_values, filteredSample.otu_labels, filteredSample.otu_ids];
-
-        // var new_bar_data = combine_list[0].map(function (col, i) {
-        //     return combine_list.map(function (row) {
-        //         return row[i];
-        //     });
-        // });
-
-        // var sorted = data.sort(function (a, b) {
-        // searchA = a.filteredSample.sample_values;
-        // searchB = b.filteredSample.sample_values;
-        // return searchB - searchA;
-        // });
-
-        // new_bar_data.sort(function (a, b) {
-        // return b[0] - a[0];
-        // return b - a;
-        // });
-
-        // var topTen = new_bar_data.slice(0, 10);
-        // topTen.reverse();
-
-        // var new_bar_data = topTen[0].map(function (col, i) {
-        //     return topTen.map(function (row) {
-        //         return row[i];
-        //     });
-        // });
-
         // Bar Chart
 
         var barData = [{
             type: 'bar',
-            // x: topTen.map(sample => sample.filteredSample.sample_values),
-            // y: topTen.map(sample => filteredSample.otu_ids),
-            x: sample_values.slice(0,10).reverse(),
-            y: otu_ids.slice(0,10).map(otu_id => `OTU ${otu_id}`).reverse(),
-            text: otu_labels.slice(0,10).reverse(),
+            x: sample_values.slice(0, 10).reverse(),
+            y: otu_ids.slice(0, 10).map(otu_id => `OTU ${otu_id}`).reverse(),
+            text: otu_labels.slice(0, 10).reverse(),
             marker: {
                 color: 'blue'
             },
@@ -98,10 +66,20 @@ function buildCharts(patientID) {
 
 
         // Gauge Data --Optional
+        var data = [
+            {
+                domain: { x: [0, 1], y: [0, 1] },
+                value: washingFrequency,
+                title: { text: "Frequency of Belly Button Washes per Weeks" },
+                type: "indicator",
+                mode: "gauge+number",
+                delta: { reference: 400 },
+                gauge: { axis: { range: [null, 9] } }
+            }
+        ];
 
-
-
-        // Plotly.newPlot("gauge", guageData, bubbleLayout)
+        var layout = { width: 600, height: 400 };
+        Plotly.newPlot('gauge', data, layout);
 
 
     })
