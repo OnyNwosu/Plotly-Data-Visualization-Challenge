@@ -75,9 +75,9 @@ function buildCharts(patientID) {
             type: 'bar',
             // x: topTen.map(sample => sample.filteredSample.sample_values),
             // y: topTen.map(sample => filteredSample.otu_ids),
-            x: sample_values,
-            y: otu_ids.map(otu_id => `${otu_id}`),
-            text: otu_labels,
+            x: sample_values.slice(0,10).reverse(),
+            y: otu_ids.slice(0,10).map(otu_id => `OTU ${otu_id}`).reverse(),
+            text: otu_labels.slice(0,10).reverse(),
             marker: {
                 color: 'blue'
             },
