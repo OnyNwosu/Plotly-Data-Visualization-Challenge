@@ -6,35 +6,74 @@ function buildCharts(patientID) {
         var samples = data.samples;
         var filteredMetadata = metadata.filter(row => row.id == patientID)[0];
         var filteredSample = samples.filter(row => row.id == patientID)[0];
+        // var filteredSample.sample_values = data.samples[0].sample_values.slice(0,10).reverse(); 
+        // var filteredSample.otu_labels = data.samples[0].otu_labels.slice(0,10);
+        // var otu_top = (data.samples[0].otu_ids.slice(0, 10)).reverse();
+        // var filteredSample.otu_ids = otu_top.map(d => "OTU " + d);
+        // var filteredSample.otu_labels = data.samples[0].otu_labels.slice(0,10);
         console.log("metadata", filteredMetadata)
         console.log("samples", filteredSample)
+            
+
+
+    // Bubble Data 
+        // var bubbleData = [{
+        //     x: filteredSample.otu_ids,
+        //     y: filteredSample.sample_values,
+        //     text:filteredSample.otu_labels,
+        //     mode: 'markers',
+        //     marker: {
+        //         color: filteredSample.otu_ids,
+        //         colorscale:"Rainbow",
+        //         opacity: [1, 0.8, 0.6, 0.4],
+        //         size: filteredSample.sample_values
+        // }
+
+        // }];
+
+        // var bubbleLayout = {
+        //     title: false,
+        //     showlegend: false,
+        //     height: 600,
+        //     width: 1250,
+        //     xaxis:{title:"OTU_ID"}
+        // };
+
+        // Plotly.newPlot('bubble', bubbleData, bubbleLayout);
+
+
+
+
         
-        var bubbleData = [{
-            // x: [1, 2, 3, 4],
-            // y: [10, 11, 12, 13],
-            x: filteredSample.otu_ids,
-            y: filteredSample.sample_values,
-            mode: 'markers',
-            marker: {
-                color: filteredSample.otu_ids,
-                colorscale:"Rainbow",
-                opacity: [1, 0.8, 0.6, 0.4],
-                size: filteredSample.sample_values
-            }
-        }];
 
-        var bubbleLayout = {
-            title: false,
-            showlegend: false,
-            height: 600,
-            width: 1250,
-            xaxis:{title:"OTU_ID"}
-        };
+    // Bar Chart
+    var barData = [{
+        type: 'bar',
+        x: filteredSample.sample_values,
+        y: filteredSample.otu_ids,
+        text: filteredSample.otu_labels,
+        marker: {
+            color: 'blue'},
+        orientation: "h",
+    
+    }];
 
-        Plotly.newPlot('bubble', bubbleData, bubbleLayout);
-        // Plotly.newPlot("barDiv", barData, barLayout)
-        // Plotly.newPlot("bubbleDiv", bubbleData, bubbleLayout)
-        // Plotly.newPlot("gaugeDiv", guageData, bubbleLayout)
+  var barLayout = {
+    title: false,
+    showlegend: false,
+    height: 450,
+    width: 460,
+    xaxis: {title: false}
+  };
+    
+    Plotly.newPlot('bar', barData, barLayout);
+
+
+
+
+    // Gauge Data
+       
+        // Plotly.newPlot("gauge", guageData, bubbleLayout)
     })
 };
 
