@@ -107,12 +107,18 @@ function buildCharts(patientID) {
 // FUNCTION #2 of 4
 function populateDemographicInfo(patientID) {
 
+    var result = data.filter(meta => meta.id.toString() === id)[0];
     var demographicInfoBox = d3.select("#sample-metadata");
 
     d3.json("samples.json").then(data => {
         console.log(data)
         // ADD APPROXIMATELY 3-6 LINE OF CODE
-    })
+       
+        demographicInfo.html("");
+        Object.entries(result).forEach((key) => {   
+            demographicInfo.append("h5").text(key[0].toUpperCase() + ": " + key[1] + "\n");    
+        });
+    });
 }
 
 // FUNCTION #3 of 4
